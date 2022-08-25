@@ -16,6 +16,9 @@
 
 package org.springframework.samples.petclinic.owner;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,10 +31,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
 
 /**
  * Test class for {@link PetTypeFormatter}
@@ -39,11 +38,10 @@ import static org.mockito.BDDMockito.given;
  * @author Colin But
  */
 @ExtendWith(MockitoExtension.class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class PetTypeFormatterTests {
 
 	@Mock
-	private PetRepository pets;
+	private OwnerRepository pets;
 
 	private PetTypeFormatter petTypeFormatter;
 
