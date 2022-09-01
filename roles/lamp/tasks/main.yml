@@ -1,0 +1,21 @@
+---
+       - name: Checking a simple command
+         command: "whoami"
+
+       - name: install Java
+         apt: 
+           name: default-jre, default-jdk
+           state: present 
+         become: yes
+       - name: Creates directory
+         file:
+           path: /opt/petclinic
+           state: directory       
+
+       - name: Change ownership of folder
+         ansible.builtin.file:
+                 path: /opt/petclinic
+                 state: directory
+                 recurse: yes
+                 owner: ubuntu
+                 group: ubuntu
