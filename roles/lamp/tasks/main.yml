@@ -2,29 +2,25 @@
   - name: Checking a simple command
     command: "whoami"
         
-  - name: Update apt packages
-    become: true
-    apt:
-      update_cache: yes
-
   - name: install Java
     apt: 
       name: default-jre, default-jdk
-      state: present 
+      state: present
     become: yes
        
   - name: Creates directory
     file:
       path: /opt/petclinic
-      state: directory       
-
-  - name: Change ownership of folder
-    ansible.builtin.file:
-      path: /opt/petclinic
       state: directory
-      recurse: yes
-      owner: ubuntu
-      group: ubuntu
+    become: yes       
+
+  #- name: Change ownership of folder
+  #  ansible.builtin.file:
+  #    path: /opt/petclinic
+  #    state: directory
+  #    recurse: yes
+  #    owner: ubuntu
+  #    group: ubuntu
   
   - name: Clone a github repository
     git:
@@ -33,24 +29,23 @@
       clone: yes
       update: yes
       version: petclinic
+    become: yes
   
   - name: make mvn wrapper executable
-    shell: chmod +x ./mvnw
+    file: dest=/opt/petclinic/mvnw mode=a+x
     become: yes
-    become_user: ubuntu
-    args:
-      chdir: /opt/petclinic/spring-petclinic
-
-  - name: make mvn wrapper executable
-    shell: ./mvnw package
-    become: yes
-    become_user: ubuntu
-    args:
-      chdir: /opt/petclinic/spring-petclinic
+    #become_user: ubuntu
 
   - name: build java application
+    command: ./mvnw package
+    become: yes
+    #become_user: ubuntu
+    args:
+      chdir: /opt/petclinic
+
+  - name: run java application
     shell: java -jar target/*.jar
     become: yes
-    become_user: ubuntu
+    #become_user: ubuntu
     args:
-      chdir: /opt/petclinic/spring-petclinic
+      chdir: /opt/petclinic
