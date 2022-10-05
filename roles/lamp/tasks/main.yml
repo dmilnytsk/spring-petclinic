@@ -44,7 +44,7 @@
       chdir: /opt/petclinic
 
   - name: run java application
-    shell: java -jar target/*.jar
+    shell: java -jar -Dspring.profiles.active=mysql target/*.jar
     become: yes
     #become_user: ubuntu
     args:
