@@ -14,13 +14,13 @@
       state: directory
     become: yes       
 
-  #- name: Change ownership of folder
-  #  ansible.builtin.file:
-  #    path: /opt/petclinic
-  #    state: directory
-  #    recurse: yes
-  #    owner: ubuntu
-  #    group: ubuntu
+  - name: Change ownership of folder
+    ansible.builtin.file:
+      path: /opt/petclinic
+      state: directory
+      recurse: yes
+      owner: ubuntu
+      group: ubuntu
   
   - name: Clone a github repository
     git:
@@ -31,21 +31,26 @@
       version: petclinic
     become: yes
   
+  - template:
+      src: application-mysql.properties.j2
+      dest: /opt/petclinic/src/main/resources/application-mysql.properties
+    become: yes
+  
   - name: make mvn wrapper executable
     file: dest=/opt/petclinic/mvnw mode=a+x
     become: yes
-    #become_user: ubuntu
+    become_user: ubuntu
 
   - name: build java application
     command: ./mvnw package
     become: yes
-    #become_user: ubuntu
+    become_user: ubuntu
     args:
       chdir: /opt/petclinic
 
   - name: run java application
     shell: java -jar -Dspring.profiles.active=mysql target/*.jar
     become: yes
-    #become_user: ubuntu
+    become_user: ubuntu
     args:
       chdir: /opt/petclinic
