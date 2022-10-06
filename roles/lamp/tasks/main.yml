@@ -14,13 +14,13 @@
       state: directory
     become: yes       
 
-  - name: Change ownership of folder
-    ansible.builtin.file:
-      path: /opt/petclinic
-      state: directory
-      recurse: yes
-      owner: ubuntu
-      group: ubuntu
+#  - name: Change ownership of folder
+#    ansible.builtin.file:
+#      path: /opt/petclinic
+#      state: directory
+#      recurse: yes
+#      owner: ubuntu
+#      group: ubuntu
   
   - name: Clone a github repository
     git:
